@@ -68,12 +68,8 @@ export class TasksPage extends Component {
   render() {
     return (
       <div className="g-row">
-        <div className="g-col">
-          <TaskForm handleSubmit={this.props.createTask} />
-        </div>
 
-        <div className="g-col">
-          <TaskFilters filter={this.props.filterType} />
+        <div className="g-col-1">
           <TaskList
             removeTask={this.props.removeTask}
             tasks={this.props.tasks}

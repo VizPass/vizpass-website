@@ -6,3 +6,9 @@
   @include grid-column;
   width: 100%;
 }
+
+.g-col-1 {
+  @include grid-column;
+  margin-top: 20px;
+  width: 100%;
+}
