@@ -10,10 +10,10 @@ const Header = ({authenticated, signOut}) => (
   <header className="header">
     <div className="g-row">
       <div className="g-col">
-        <h1 className="header__title">VizPass</h1>
+        <img src="./logo.png"></img>
 
         <ul className="header__actions">
-          {authenticated ? <li><Button onClick={signOut}>Sign out</Button></li> : null}
+          {authenticated ? <li><Button className="signOut-btn" onClick={signOut}>Sign out</Button></li> : null}
           <li>
           </li>
         </ul>

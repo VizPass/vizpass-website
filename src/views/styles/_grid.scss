@@ -9,6 +9,13 @@
 
 .g-col-1 {
   @include grid-column;
-  margin-top: 20px;
+  margin-top: 40px;
   width: 100%;
+}
+
+.g-col-2 {
+  @include grid-column;
+  margin-top: 40px;
+  width: 100%;
+  text-align: center;
 }

@@ -68,7 +68,9 @@ export class TasksPage extends Component {
   render() {
     return (
       <div className="g-row">
-
+      <div className="g-col-2">
+        <img src="./lhd.png" width="87" height="109"></img>
+      </div>
         <div className="g-col-1">
           <TaskList
             removeTask={this.props.removeTask}
