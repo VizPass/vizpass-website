@@ -10,6 +10,7 @@ import Notification from '../../components/notification';
 import TaskFilters from '../../components/task-filters';
 import TaskForm from '../../components/task-form';
 import TaskList from '../../components/task-list';
+import WaitList from '../../components/wait-list';
 
 
 export class TasksPage extends Component {
@@ -67,18 +68,32 @@ export class TasksPage extends Component {
 
   render() {
     return (
-      <div className="g-row">
-        <div className="g-col">
-          <TaskForm handleSubmit={this.props.createTask} />
-        </div>
+      <div className="g-row-1">
 
-        <div className="g-col">
-          <TaskFilters filter={this.props.filterType} />
+        <div className="g-col-1">
+          <div className="g-col-text">
+            <h2>Wait List</h2>
+          </div>
+
           <TaskList
             removeTask={this.props.removeTask}
             tasks={this.props.tasks}
             updateTask={this.props.updateTask}
           />
+
+        </div>
+
+        <div className="g-col-1">
+          <div className="g-col-text">
+            <h2>In Event</h2>
+          </div>
+
+          <WaitList
+            removeTask={this.props.removeTask}
+            tasks={this.props.tasks}
+            updateTask={this.props.updateTask}
+          />
+
         </div>
 
         {this.props.notification.display ? this.renderNotification() : null}

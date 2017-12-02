@@ -4,10 +4,10 @@ import PropTypes from 'prop-types';
 import Button from '../button';
 import Icon from '../icon';
 
-import './task-item.css';
+import './wait-item.css';
 
 
-export class TaskItem extends Component {
+export class WaitItem extends Component {
   constructor() {
     super(...arguments);
 
@@ -35,16 +35,16 @@ export class TaskItem extends Component {
   }
 
   remove() {
-    this.props.removeTask(this.props.task);
+    this.props.removeWait(this.props.wait);
   }
 
   save(event) {
     if (this.state.editing) {
-      const { task } = this.props;
+      const { wait } = this.props;
       const title = event.target.value.trim();
 
-      if (title.length && title !== task.title) {
-        this.props.updateTask(task, {title});
+      if (title.length && title !== wait.title) {
+        this.props.updateWait(wait, {title});
       }
 
       this.stopEditing();
@@ -56,25 +56,25 @@ export class TaskItem extends Component {
   }
 
   toggleStatus() {
-    const { task } = this.props;
-    this.props.updateTask(task, {completed: !task.completed});
+    const { wait } = this.props;
+    this.props.updateWait(wait, {completed: !wait.completed});
   }
 
-  renderTitle(task) {
+  renderTitle(wait) {
     return (
-      <div className="task-item__title" tabIndex="0">
-        {task.title}
+      <div className="wait-item__title" tabIndex="0">
+        {wait.title}
       </div>
     );
   }
 
-  renderTitleInput(task) {
+  renderTitleInput(wait) {
     return (
       <input
         autoComplete="off"
         autoFocus
-        className="task-item__input"
-        defaultValue={task.title}
+        className="wait-item__input"
+        defaultValue={wait.title}
         maxLength="64"
         onKeyUp={this.handleKeyUp}
         type="text"
@@ -84,11 +84,11 @@ export class TaskItem extends Component {
 
   render() {
     const { editing } = this.state;
-    const { task } = this.props;
+    const { wait } = this.props;
 
-    let containerClasses = classNames('task-item', {
-      'task-item--completed': task.completed,
-      'task-item--editing': editing
+    let containerClasses = classNames('wait-item', {
+      'wait-item--completed': wait.completed,
+      'wait-item--editing': editing
     });
 
     return (
@@ -98,22 +98,22 @@ export class TaskItem extends Component {
         </div>
 
         <div className="cell">
-          {editing ? this.renderTitleInput(task) : this.renderTitle(task)}
+          {editing ? this.renderTitleInput(wait) : this.renderTitle(wait)}
         </div>
 
         <div className="cell">
           <Button
-            className={classNames('btn--icon', 'task-item__button', {'hide': editing})}
+            className={classNames('btn--icon', 'wait-item__button', {'hide': editing})}
             onClick={this.edit}>
             <Icon name="mode_edit" />
           </Button>
           <Button
-            className={classNames('btn--icon', 'task-item__button', {'hide': !editing})}
+            className={classNames('btn--icon', 'wait-item__button', {'hide': !editing})}
             onClick={this.stopEditing}>
             <Icon name="clear" />
           </Button>
           <Button
-            className={classNames('btn--icon', 'task-item__button', {'hide': editing})}
+            className={classNames('btn--icon', 'wait-item__button', {'hide': editing})}
             onClick={this.remove}>
             <Icon name="delete" />
           </Button>
@@ -123,11 +123,11 @@ export class TaskItem extends Component {
   }
 }
 
-TaskItem.propTypes = {
-  removeTask: PropTypes.func.isRequired,
-  task: PropTypes.object.isRequired,
-  updateTask: PropTypes.func.isRequired
+WaitItem.propTypes = {
+  removeWait: PropTypes.func.isRequired,
+  wait: PropTypes.object.isRequired,
+  updateWait: PropTypes.func.isRequired
 };
 
 
-export default TaskItem;
+export default WaitItem;
