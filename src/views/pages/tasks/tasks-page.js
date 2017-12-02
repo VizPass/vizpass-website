@@ -10,12 +10,12 @@ import { getWaitFilter, getVisibleWaits, waitsActions } from 'src/waits';
 
 import Notification from '../../components/notification';
 
-import TaskFilters from '../../components/task-filters';
-import TaskForm from '../../components/task-form';
+// import TaskFilters from '../../components/task-filters';
+// import TaskForm from '../../components/task-form';
 import TaskList from '../../components/task-list';
 
-import WaitFilters from '../../components/wait-filters';
-import WaitForm from '../../components/wait-form';
+// import WaitFilters from '../../components/wait-filters';
+// import WaitForm from '../../components/wait-form';
 import WaitList from '../../components/wait-list';
 
 
@@ -38,7 +38,6 @@ export class TasksPage extends Component {
     tasks: PropTypes.instanceOf(List).isRequired,
     undeleteTask: PropTypes.func.isRequired,
     unloadWaits: PropTypes.func.isRequired,
-    updateWait: PropTypes.func.isRequired,
     unloadTasks: PropTypes.func.isRequired,
     updateTask: PropTypes.func.isRequired
   };
@@ -94,18 +93,6 @@ export class TasksPage extends Component {
     return (
       <div className="g-row-1">
 
-        <div className="g-col-1">
-          <div className="g-col-text">
-            <h2>Wait List</h2>
-          </div>
-
-          <TaskList
-            removeTask={this.props.removeTask}
-            tasks={this.props.tasks}
-            updateTask={this.props.updateTask}
-          />
-
-        </div>
 
         <div className="g-col-1">
           <div className="g-col-text">
