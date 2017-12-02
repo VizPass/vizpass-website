@@ -2,65 +2,65 @@ import { List } from 'immutable';
 import { SIGN_OUT_SUCCESS } from 'src/auth/action-types';
 
 import {
-  CREATE_TASK_SUCCESS,
-  REMOVE_TASK_SUCCESS,
-  FILTER_TASKS,
-  LOAD_TASKS_SUCCESS,
-  UPDATE_TASK_SUCCESS
+  CREATE_WAIT_SUCCESS,
+  REMOVE_WAIT_SUCCESS,
+  FILTER_WAITS,
+  LOAD_WAITS_SUCCESS,
+  UPDATE_WAIT_SUCCESS
 } from './action-types';
 
-import { Task } from './task';
-import { tasksReducer, TasksState } from './reducer';
+import { Wait } from './wait';
+import { waitsReducer, WaitsState } from './reducer';
 
 
-describe('Tasks reducer', () => {
-  let task1;
-  let task2;
+describe('Waits reducer', () => {
+  let wait1;
+  let wait2;
 
   beforeEach(() => {
-    task1 = new Task({completed: false, key: '0', title: 'task 1'});
-    task2 = new Task({completed: false, key: '1', title: 'task 2'});
+    wait1 = new Wait({completed: false, key: '0', title: 'wait 1'});
+    wait2 = new Wait({completed: false, key: '1', title: 'wait 2'});
   });
 
 
-  describe('CREATE_TASK_SUCCESS', () => {
-    it('should prepend new task to list', () => {
-      let state = new TasksState({list: new List([task1])});
+  describe('CREATE_WAIT_SUCCESS', () => {
+    it('should prepend new wait to list', () => {
+      let state = new WaitsState({list: new List([wait1])});
 
-      let nextState = tasksReducer(state, {
-        type: CREATE_TASK_SUCCESS,
-        payload: task2
+      let nextState = waitsReducer(state, {
+        type: CREATE_WAIT_SUCCESS,
+        payload: wait2
       });
 
-      expect(nextState.list.get(0)).toBe(task2);
-      expect(nextState.list.get(1)).toBe(task1);
+      expect(nextState.list.get(0)).toBe(wait2);
+      expect(nextState.list.get(1)).toBe(wait1);
     });
   });
 
 
-  describe('REMOVE_TASK_SUCCESS', () => {
-    it('should remove task from list', () => {
-      let state = new TasksState({list: new List([task1, task2])});
+  describe('REMOVE_WAIT_SUCCESS', () => {
+    it('should remove wait from list', () => {
+      let state = new WaitsState({list: new List([wait1, wait2])});
 
-      let nextState = tasksReducer(state, {
-        type: REMOVE_TASK_SUCCESS,
-        payload: task2
+      let nextState = waitsReducer(state, {
+        type: REMOVE_WAIT_SUCCESS,
+        payload: wait2
       });
 
-      expect(nextState.deleted).toBe(task2);
+      expect(nextState.deleted).toBe(wait2);
       expect(nextState.list.size).toBe(1);
-      expect(nextState.list.get(0)).toBe(task1);
+      expect(nextState.list.get(0)).toBe(wait1);
       expect(nextState.previous).toBe(state.list);
     });
   });
 
 
-  describe('FILTER_TASKS', () => {
+  describe('FILTER_WAITS', () => {
     it('should set filter with provided value', () => {
-      let state = new TasksState();
+      let state = new WaitsState();
 
-      let nextState = tasksReducer(state, {
-        type: FILTER_TASKS,
+      let nextState = waitsReducer(state, {
+        type: FILTER_WAITS,
         payload: {
           filterType: 'completed'
         }
@@ -71,57 +71,57 @@ describe('Tasks reducer', () => {
   });
 
 
-  describe('LOAD_TASKS_SUCCESS', () => {
-    it('should set task list', () => {
-      let state = new TasksState();
+  describe('LOAD_WAITS_SUCCESS', () => {
+    it('should set wait list', () => {
+      let state = new WaitsState();
 
-      let nextState = tasksReducer(state, {
-        type: LOAD_TASKS_SUCCESS,
-        payload: [task1, task2]
+      let nextState = waitsReducer(state, {
+        type: LOAD_WAITS_SUCCESS,
+        payload: [wait1, wait2]
       });
 
       expect(nextState.list.size).toBe(2);
     });
 
-    it('should order tasks newest first', () => {
-      let state = new TasksState();
+    it('should order waits newest first', () => {
+      let state = new WaitsState();
 
-      let nextState = tasksReducer(state, {
-        type: LOAD_TASKS_SUCCESS,
-        payload: [task1, task2]
+      let nextState = waitsReducer(state, {
+        type: LOAD_WAITS_SUCCESS,
+        payload: [wait1, wait2]
       });
 
-      expect(nextState.list.get(0)).toBe(task2);
-      expect(nextState.list.get(1)).toBe(task1);
+      expect(nextState.list.get(0)).toBe(wait2);
+      expect(nextState.list.get(1)).toBe(wait1);
     });
   });
 
 
-  describe('UPDATE_TASK_SUCCESS', () => {
-    it('should update task', () => {
-      let state = new TasksState({list: new List([task1, task2])});
-      let changedTask = task2.set('title', 'changed');
+  describe('UPDATE_WAIT_SUCCESS', () => {
+    it('should update wait', () => {
+      let state = new WaitsState({list: new List([wait1, wait2])});
+      let changedWait = wait2.set('title', 'changed');
 
-      let nextState = tasksReducer(state, {
-        type: UPDATE_TASK_SUCCESS,
-        payload: changedTask
+      let nextState = waitsReducer(state, {
+        type: UPDATE_WAIT_SUCCESS,
+        payload: changedWait
       });
 
-      expect(nextState.list.get(0)).toBe(task1);
-      expect(nextState.list.get(1)).toBe(changedTask);
+      expect(nextState.list.get(0)).toBe(wait1);
+      expect(nextState.list.get(1)).toBe(changedWait);
     });
   });
 
 
   describe('SIGN_OUT_SUCCESS', () => {
     it('should reset state', () => {
-      let state = new TasksState({
-        delete: task1,
-        list: new List([task1, task2]),
+      let state = new WaitsState({
+        delete: wait1,
+        list: new List([wait1, wait2]),
         previous: new List()
       });
 
-      let nextState = tasksReducer(state, {
+      let nextState = waitsReducer(state, {
         type: SIGN_OUT_SUCCESS
       });
 

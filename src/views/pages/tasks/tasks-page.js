@@ -6,25 +6,39 @@ import { createSelector } from 'reselect';
 
 import { getNotification, notificationActions } from 'src/notification';
 import { getTaskFilter, getVisibleTasks, tasksActions } from 'src/tasks';
+import { getWaitFilter, getVisibleWaits, waitsActions } from 'src/waits';
+
 import Notification from '../../components/notification';
+
 import TaskFilters from '../../components/task-filters';
 import TaskForm from '../../components/task-form';
 import TaskList from '../../components/task-list';
+
+import WaitFilters from '../../components/wait-filters';
+import WaitForm from '../../components/wait-form';
 import WaitList from '../../components/wait-list';
 
 
 export class TasksPage extends Component {
   static propTypes = {
+    createWait: PropTypes.func.isRequired,
     createTask: PropTypes.func.isRequired,
     dismissNotification: PropTypes.func.isRequired,
+    filterWaits: PropTypes.func.isRequired,
     filterTasks: PropTypes.func.isRequired,
     filterType: PropTypes.string.isRequired,
+    loadWaits: PropTypes.func.isRequired,
     loadTasks: PropTypes.func.isRequired,
     location: PropTypes.object.isRequired,
     notification: PropTypes.object.isRequired,
+    removeWait: PropTypes.func.isRequired,
+    waits: PropTypes.instanceOf(List).isRequired,
+    updateWait: PropTypes.func.isRequired,
     removeTask: PropTypes.func.isRequired,
     tasks: PropTypes.instanceOf(List).isRequired,
     undeleteTask: PropTypes.func.isRequired,
+    unloadWaits: PropTypes.func.isRequired,
+    updateWait: PropTypes.func.isRequired,
     unloadTasks: PropTypes.func.isRequired,
     updateTask: PropTypes.func.isRequired
   };
@@ -32,6 +46,10 @@ export class TasksPage extends Component {
   componentWillMount() {
     this.props.loadTasks();
     this.props.filterTasks(
+      this.getFilterParam(this.props.location.search)
+    );
+    this.props.loadWaits();
+    this.props.filterWaits(
       this.getFilterParam(this.props.location.search)
     );
   }
@@ -42,10 +60,16 @@ export class TasksPage extends Component {
         this.getFilterParam(nextProps.location.search)
       );
     }
+    if (nextProps.location.search !== this.props.location.search) {
+      this.props.filterWaits(
+        this.getFilterParam(nextProps.location.search)
+      );
+    }
   }
 
   componentWillUnmount() {
     this.props.unloadTasks();
+    this.props.unloadWaits();
   }
 
   getFilterParam(search) {
@@ -89,9 +113,9 @@ export class TasksPage extends Component {
           </div>
 
           <WaitList
-            removeTask={this.props.removeTask}
-            tasks={this.props.tasks}
-            updateTask={this.props.updateTask}
+            removeWait={this.props.removeWait}
+            waits={this.props.waits}
+            updateWait={this.props.updateWait}
           />
 
         </div>
@@ -115,12 +139,20 @@ const mapStateToProps = createSelector(
     notification,
     filterType,
     tasks
+  }),
+  getWaitFilter,
+  getVisibleWaits,
+  (notification, filterType, waits) => ({
+    notification,
+    filterType,
+    waits
   })
 );
 
 const mapDispatchToProps = Object.assign(
   {},
   tasksActions,
+  waitsActions,
   notificationActions
 );
 

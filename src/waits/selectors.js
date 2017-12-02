@@ -1,20 +1,20 @@
 import { createSelector } from 'reselect';
 
 
-export function getTasks(state) {
-  return state.tasks;
+export function getWaits(state) {
+  return state.waits;
 }
 
-export function getTaskList(state) {
-  return getTasks(state).list;
+export function getWaitList(state) {
+  return getWaits(state).list;
 }
 
-export function getTaskFilter(state) {
-  return getTasks(state).filter;
+export function getWaitFilter(state) {
+  return getWaits(state).filter;
 }
 
-export function getDeletedTask(state) {
-  return getTasks(state).deleted;
+export function getDeletedWait(state) {
+  return getWaits(state).deleted;
 }
 
 
@@ -22,19 +22,19 @@ export function getDeletedTask(state) {
 //  MEMOIZED SELECTORS
 //-------------------------------------
 
-export const getVisibleTasks = createSelector(
-  getTaskList,
-  getTaskFilter,
-  (tasks, filter) => {
+export const getVisibleWaits = createSelector(
+  getWaitList,
+  getWaitFilter,
+  (waits, filter) => {
     switch (filter) {
       case 'active':
-        return tasks.filter(task => !task.completed);
+        return waits.filter(wait => !wait.completed);
 
       case 'completed':
-        return tasks.filter(task => task.completed);
+        return waits.filter(wait => wait.completed);
 
       default:
-        return tasks;
+        return waits;
     }
   }
 );

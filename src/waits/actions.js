@@ -1,4 +1,4 @@
-import { getDeletedTask } from './selectors';
+import { getDeletedWait } from './selectors';
 import { waitList } from './wait-list';
 import {
   CREATE_WAIT_ERROR,
@@ -14,101 +14,101 @@ import {
 } from './action-types';
 
 
-export function createTask(title) {
+export function createWait(title) {
   return dispatch => {
     waitList.push({completed: false, title})
-      .catch(error => dispatch(createTaskError(error)));
+      .catch(error => dispatch(createWaitError(error)));
   };
 }
 
-export function createTaskError(error) {
+export function createWaitError(error) {
   return {
     type: CREATE_WAIT_ERROR,
     payload: error
   };
 }
 
-export function createTaskSuccess(wait) {
+export function createWaitSuccess(wait) {
   return {
     type: CREATE_WAIT_SUCCESS,
     payload: wait
   };
 }
 
-export function removeTask(wait) {
+export function removeWait(wait) {
   return dispatch => {
     waitList.remove(wait.key)
-      .catch(error => dispatch(removeTaskError(error)));
+      .catch(error => dispatch(removeWaitError(error)));
   };
 }
 
-export function removeTaskError(error) {
+export function removeWaitError(error) {
   return {
     type: REMOVE_WAIT_ERROR,
     payload: error
   };
 }
 
-export function removeTaskSuccess(wait) {
+export function removeWaitSuccess(wait) {
   return {
     type: REMOVE_WAIT_SUCCESS,
     payload: wait
   };
 }
 
-export function undeleteTask() {
+export function undeleteWait() {
   return (dispatch, getState) => {
-    const wait = getDeletedTask(getState());
+    const wait = getDeletedWait(getState());
     if (wait) {
       waitList.set(wait.key, {completed: wait.completed, title: wait.title})
-        .catch(error => dispatch(undeleteTaskError(error)));
+        .catch(error => dispatch(undeleteWaitError(error)));
     }
   };
 }
 
-export function undeleteTaskError(error) {
+export function undeleteWaitError(error) {
   return {
     type: UNDELETE_WAIT_ERROR,
     payload: error
   };
 }
 
-export function updateTaskError(error) {
+export function updateWaitError(error) {
   return {
     type: UPDATE_WAIT_ERROR,
     payload: error
   };
 }
 
-export function updateTask(wait, changes) {
+export function updateWait(wait, changes) {
   return dispatch => {
     waitList.update(wait.key, changes)
-      .catch(error => dispatch(updateTaskError(error)));
+      .catch(error => dispatch(updateWaitError(error)));
   };
 }
 
-export function updateTaskSuccess(wait) {
+export function updateWaitSuccess(wait) {
   return {
     type: UPDATE_WAIT_SUCCESS,
     payload: wait
   };
 }
 
-export function loadTasksSuccess(waits) {
+export function loadWaitsSuccess(waits) {
   return {
     type: LOAD_WAITS_SUCCESS,
     payload: waits
   };
 }
 
-export function filterTasks(filterType) {
+export function filterWaits(filterType) {
   return {
     type: FILTER_WAITS,
     payload: {filterType}
   };
 }
 
-export function loadTasks() {
+export function loadWaits() {
   return (dispatch, getState) => {
     const { auth } = getState();
     waitList.path = `waits/${auth.id}`;
@@ -116,7 +116,7 @@ export function loadTasks() {
   };
 }
 
-export function unloadTasks() {
+export function unloadWaits() {
   waitList.unsubscribe();
   return {
     type: UNLOAD_WAITS_SUCCESS

@@ -1,42 +1,42 @@
 import { List } from 'immutable';
-import { TasksState } from './reducer';
-import { getVisibleTasks } from './selectors';
-import { Task } from './task';
+import { WaitsState } from './reducer';
+import { getVisibleWaits } from './selectors';
+import { Wait } from './wait';
 
 
-describe('Tasks selectors', () => {
-  let tasks;
+describe('Waits selectors', () => {
+  let waits;
 
   beforeEach(() => {
-    tasks = new TasksState({
+    waits = new WaitsState({
       list: new List([
-        new Task({completed: false, title: 'task-1'}),
-        new Task({completed: true, title: 'task-2'})
+        new Wait({completed: false, title: 'wait-1'}),
+        new Wait({completed: true, title: 'wait-2'})
       ])
     });
   });
 
 
-  describe('getVisibleTasks()', () => {
-    it('should return list of all tasks', () => {
-      let taskList = getVisibleTasks({tasks});
-      expect(taskList.size).toBe(2);
+  describe('getVisibleWaits()', () => {
+    it('should return list of all waits', () => {
+      let waitList = getVisibleWaits({waits});
+      expect(waitList.size).toBe(2);
     });
 
-    it('should return list of active (incomplete) tasks', () => {
-      tasks = tasks.set('filter', 'active');
-      let taskList = getVisibleTasks({tasks});
+    it('should return list of active (incomplete) waits', () => {
+      waits = waits.set('filter', 'active');
+      let waitList = getVisibleWaits({waits});
 
-      expect(taskList.size).toBe(1);
-      expect(taskList.get(0).title).toBe('task-1');
+      expect(waitList.size).toBe(1);
+      expect(waitList.get(0).title).toBe('wait-1');
     });
 
-    it('should return list of completed tasks', () => {
-      tasks = tasks.set('filter', 'completed');
-      let taskList = getVisibleTasks({tasks});
+    it('should return list of completed waits', () => {
+      waits = waits.set('filter', 'completed');
+      let waitList = getVisibleWaits({waits});
 
-      expect(taskList.size).toBe(1);
-      expect(taskList.get(0).title).toBe('task-2');
+      expect(waitList.size).toBe(1);
+      expect(waitList.get(0).title).toBe('wait-2');
     });
   });
 });

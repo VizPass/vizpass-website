@@ -1,15 +1,15 @@
 import { List, Record } from 'immutable';
 import { SIGN_OUT_SUCCESS } from 'src/auth/action-types';
 import {
-  CREATE_TASK_SUCCESS,
-  REMOVE_TASK_SUCCESS,
-  FILTER_TASKS,
-  LOAD_TASKS_SUCCESS,
-  UPDATE_TASK_SUCCESS
+  CREATE_WAIT_SUCCESS,
+  REMOVE_WAIT_SUCCESS,
+  FILTER_WAITS,
+  LOAD_WAITS_SUCCESS,
+  UPDATE_WAIT_SUCCESS
 } from './action-types';
 
 
-export const TasksState = new Record({
+export const WaitsState = new Record({
   deleted: null,
   filter: '',
   list: new List(),
@@ -17,9 +17,9 @@ export const TasksState = new Record({
 });
 
 
-export function tasksReducer(state = new TasksState(), {payload, type}) {
+export function waitsReducer(state = new WaitsState(), {payload, type}) {
   switch (type) {
-    case CREATE_TASK_SUCCESS:
+    case CREATE_WAIT_SUCCESS:
       return state.merge({
         deleted: null,
         previous: null,
@@ -28,30 +28,30 @@ export function tasksReducer(state = new TasksState(), {payload, type}) {
               state.list.unshift(payload)
       });
 
-    case REMOVE_TASK_SUCCESS:
+    case REMOVE_WAIT_SUCCESS:
       return state.merge({
         deleted: payload,
         previous: state.list,
-        list: state.list.filter(task => task.key !== payload.key)
+        list: state.list.filter(wait => wait.key !== payload.key)
       });
 
-    case FILTER_TASKS:
+    case FILTER_WAITS:
       return state.set('filter', payload.filterType || '');
 
-    case LOAD_TASKS_SUCCESS:
+    case LOAD_WAITS_SUCCESS:
       return state.set('list', new List(payload.reverse()));
 
-    case UPDATE_TASK_SUCCESS:
+    case UPDATE_WAIT_SUCCESS:
       return state.merge({
         deleted: null,
         previous: null,
-        list: state.list.map(task => {
-          return task.key === payload.key ? payload : task;
+        list: state.list.map(wait => {
+          return wait.key === payload.key ? payload : wait;
         })
       });
 
     case SIGN_OUT_SUCCESS:
-      return new TasksState();
+      return new WaitsState();
 
     default:
       return state;
