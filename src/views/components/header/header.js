@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Button from '../button';
-import GitHubLogo from '../github-logo';
+// import GitHubLogo from '../github-logo';
 
 import './header.css';
 
